@@ -7,7 +7,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-export const version = '0.1.0'
+export const version = '0.1.1pre'
 
 const toArray = ite => Array.isArray(ite) ? ite : Array.from(ite)
 
@@ -136,6 +136,8 @@ class ArrayIterator {
 export default function seq (iterator) {
   if (typeof iterator === 'number') {
     return new ArrayIterator(Array(iterator).keys())
+  } else if (iterator instanceof ArrayIterator) {
+    return iterator
   } else if (typeof iterator[Symbol.iterator] === 'function') {
     return new ArrayIterator(iterator)
   } else {
