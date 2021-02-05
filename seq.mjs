@@ -49,7 +49,7 @@ class ArrayIterator {
   flat (depth = 1) {
     return new ArrayIterator(function * recur (ite, depth) {
       for (const v of ite) {
-        if (depth > 0 && typeof v[Symbol.iterator] === 'function') {
+        if (depth > 0 && v !== null && typeof v[Symbol.iterator] === 'function') {
           yield * recur(v, depth - 1)
         } else {
           yield v

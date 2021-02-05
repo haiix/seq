@@ -10,13 +10,13 @@ describe('seq function', () => {
   it('From integer', () => {
     const ite = seq(3)
     expect(ite).to.be.an('object')
-    expect(ite).to.have.property(Symbol.iterator).that.is.a('function')
+    expect(ite[Symbol.iterator]).to.be.a('function')
     expect(Array.from(ite)).to.deep.equal([0, 1, 2])
   })
   it('From iterator', () => {
     const ite = seq([10, 20, 30])
     expect(ite).to.be.an('object')
-    expect(ite).to.have.property(Symbol.iterator).that.is.a('function')
+    expect(ite[Symbol.iterator]).to.be.a('function')
     expect(Array.from(ite)).to.deep.equal([10, 20, 30])
   })
   it('Errors', () => {
@@ -102,9 +102,12 @@ describe('ArrayIterator methods', () => {
     const res12 = [10, [20, [30]], 40].flat()
     const res21 = Array.from(seq([10, [20, [30]], 40]).flat(2))
     const res22 = [10, [20, [30]], 40].flat(2)
+    const res31 = Array.from(seq([null]).flat())
+    const res32 = [null].flat()
     expect(ite).to.be.an.instanceof(ArrayIterator)
     expect(res11).to.deep.equal(res12)
     expect(res21).to.deep.equal(res22)
+    expect(res31).to.deep.equal(res32)
   })
   it('flatMap', () => {
     const ite = seq(0).flatMap()
