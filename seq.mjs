@@ -7,7 +7,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-export const version = '0.1.1pre'
+export const version = '0.1.1'
 
 const toArray = ite => Array.isArray(ite) ? ite : Array.from(ite)
 

@@ -1,6 +1,6 @@
 {
   "name": "@haiix/seq",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A JavaScript module that allows iterators to use array-like methods.",
   "main": "seq.mjs",
   "repository": "https://github.com/haiix/seq.git",
