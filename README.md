@@ -2,10 +2,18 @@
 
 A JavaScript module that allows iterators to use array-like methods.
 
+There is also an asynchronous version: https://github.com/haiix/aseq
+
 ## Installation
 
+```
+npm install @haiix/seq
+```
+
+## Usage
+
 ```javascript
-import seq from './seq.mjs'
+import seq from '@haiix/seq'
 ```
 
 ## Examples
