@@ -240,6 +240,11 @@ describe('ArrayIterator methods', () => {
     expect(res31).to.equal(res32)
     expect(res41).to.equal(res42)
   })
+  it('toArray', () => {
+    const res11 = seq(4).toArray()
+    const res12 = Array.from(seq(4))
+    expect(res11).to.deep.equal(res12)
+  })
   it('toString', () => {
     const res11 = seq(2).toString()
     expect(res11).to.equal('01')

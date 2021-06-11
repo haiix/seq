@@ -7,7 +7,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-export const version = '0.1.1'
+export const version = '0.1.2beta'
 
 const toArray = ite => Array.isArray(ite) ? ite : Array.from(ite)
 
@@ -118,6 +118,10 @@ class ArrayIterator {
 
   some (callbackfn, thisArg = null) {
     return this.map(callbackfn, thisArg).map(v => !!v).includes(true)
+  }
+
+  toArray () {
+    return Array.from(this)
   }
 
   toString () {
