@@ -9,15 +9,13 @@
 
 export const version = '0.1.2beta'
 
-const toArray = ite => Array.isArray(ite) ? ite : Array.from(ite)
-
 class ArrayIterator {
   constructor (iterator) {
-    this._ite = iterator
+    this[Symbol.iterator] = () => iterator[Symbol.iterator]()
   }
 
   concat (...items) {
-    return new ArrayIterator([this._ite, ...items]).flat()
+    return new ArrayIterator([this, ...items]).flat()
   }
 
   entries () {
@@ -29,7 +27,7 @@ class ArrayIterator {
   }
 
   fill (value, start = 0, end = Number.MAX_SAFE_INTEGER) {
-    if (start < 0 || end < 0) return new ArrayIterator(toArray(this._ite).fill(...arguments))
+    if (start < 0 || end < 0) return new ArrayIterator(this.toArray().fill(...arguments))
     return this.map((v, i) => (i >= start && i < end) ? value : v)
   }
 
@@ -38,11 +36,11 @@ class ArrayIterator {
   }
 
   find (callbackfn, thisArg = null) {
-    for (const [i, v] of this.entries()) if (callbackfn.call(thisArg, v, i, this._ite)) return v
+    for (const [i, v] of this.entries()) if (callbackfn.call(thisArg, v, i, this)) return v
   }
 
   findIndex (callbackfn, thisArg = null) {
-    for (const [i, v] of this.entries()) if (callbackfn.call(thisArg, v, i, this._ite)) return i
+    for (const [i, v] of this.entries()) if (callbackfn.call(thisArg, v, i, this)) return i
     return -1
   }
 
@@ -55,7 +53,7 @@ class ArrayIterator {
           yield v
         }
       }
-    }(this._ite, depth))
+    }(this, depth))
   }
 
   flatMap (mapperFunction, thisArg) {
@@ -71,12 +69,12 @@ class ArrayIterator {
   }
 
   indexOf (searchElement, fromIndex = 0) {
-    if (fromIndex < 0) return toArray(this._ite).indexOf(...arguments)
+    if (fromIndex < 0) return this.toArray().indexOf(...arguments)
     return this.findIndex((v, i) => i >= fromIndex && v === searchElement)
   }
 
   join (separator = ',') {
-    return toArray(this._ite).join(...arguments)
+    return this.toArray().join(...arguments)
   }
 
   keys () {
@@ -84,35 +82,35 @@ class ArrayIterator {
   }
 
   lastIndexOf (searchElement, fromIndex = undefined) {
-    return toArray(this._ite).lastIndexOf(...arguments)
+    return this.toArray().lastIndexOf(...arguments)
   }
 
   map (callbackfn, thisArg = null) {
     return new ArrayIterator(function * (ite, i) {
       for (const v of ite) yield callbackfn.call(thisArg, v, ++i, ite)
-    }(this._ite, -1))
+    }(this, -1))
   }
 
   reduce (callbackfn, initialValue = undefined) {
     let value = initialValue
-    for (const [i, v] of this.entries()) value = (i === 0 && arguments.length === 1) ? v : callbackfn(value, v, i, this._ite)
+    for (const [i, v] of this.entries()) value = (i === 0 && arguments.length === 1) ? v : callbackfn(value, v, i, this)
     return value
   }
 
   reduceRight (callbackfn, initialValue = undefined) {
-    return toArray(this._ite).reduceRight(...arguments)
+    return this.toArray().reduceRight(...arguments)
   }
 
   slice (start = 0, end = Number.MAX_SAFE_INTEGER) {
     return new ArrayIterator(
       start < 0 || end < 0
-        ? toArray(this._ite).slice(...arguments)
+        ? this.toArray().slice(...arguments)
         : (function * (ite, i) {
             for (const v of ite) {
               if (++i >= end) return
               if (i >= start) yield v
             }
-          }(this._ite, -1))
+          }(this, -1))
     )
   }
 
@@ -129,11 +127,7 @@ class ArrayIterator {
   }
 
   values () {
-    return new ArrayIterator(this._ite)
-  }
-
-  [Symbol.iterator] () {
-    return this._ite[Symbol.iterator]()
+    return new ArrayIterator(this)
   }
 }
 
