@@ -1,3 +1,8 @@
+# ⚠️ This project is no longer maintained
+
+This repository is no longer actively maintained.
+Please consider using alternative libraries.
+
 # seq.mjs
 
 A JavaScript module that allows iterators to use array-like methods.
